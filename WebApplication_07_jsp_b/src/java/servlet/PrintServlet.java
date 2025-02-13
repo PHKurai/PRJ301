@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,49 +18,30 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author phucl
  */
-@WebServlet(name = "MainController", urlPatterns = {"/MainController"})
-public class MainController extends HttpServlet {
+@WebServlet(name = "PrintServlet", urlPatterns = {"/PrintServlet"})
+public class PrintServlet extends HttpServlet {
 
-    public boolean isValidLogin(String username, String password){
-        return username.equals("admin") && password.equals("12345678");
-    }
-    
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        String strN = request.getParameter("strN");
+        int n = Integer.parseInt(strN);
         
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        // setAttribute
+        request.setAttribute("n", n);
         
-        if(username==null || username.trim().length()==0) {
-            out.println("Please enter username!");
-            return;
-        }
-        
-        if(password == null|| password.trim().length()<8) {
-            out.println("Please enter password (minimun is 8 characters)!");
-            return;
-        }
-        
-        if(isValidLogin(username, password)) {
-            // forward
-            RequestDispatcher rd = request.getRequestDispatcher("search.html");
-            rd.forward(request, response);
-        } else {
-           // forward
-           // RequestDispatcher rd = request.getRequestDispatcher("invalid.html");
-           // rd.forward(request, response);
-           
-           // redirect
-           response.sendRedirect("invalid.html");
-        }
-        
-        // compare rd.forward vs response.sendRedirect? case study?
-        /**
-         * Forward: co the chuyen trang voi cac tham so cho trang sau, khong the truy cap truc tiep bang link
-         * Redirect: chuyen trang truc tiep bang link, khong the truyen tham so va co the truy cap truc tiep bang link
-        **/
+        // forward
+        RequestDispatcher rd = request.getRequestDispatcher("output.jsp");
+        rd.forward(request, response);
         
     }
 
