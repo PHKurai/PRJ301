@@ -9,11 +9,8 @@ import dto.StartupProjectDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utils.DBUtils;
 
 /**
@@ -57,11 +54,10 @@ public class StartupProjectDAO implements I_DAO<StartupProjectDTO, Integer>{
             ps.setInt(2, entity.getId());
             int n = ps.executeUpdate();
             return n > 0;
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
+        
         return false;
     }
 
