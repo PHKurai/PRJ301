@@ -4,6 +4,7 @@
     Author     : phucl
 --%>
 
+<%@page import="utils.AuthUtils"%>
 <%@page import="dto.StartupProjectDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,9 +15,11 @@
     </head>
     <body>
         <%
-            StartupProjectDTO sp = (StartupProjectDTO) request.getAttribute("project");
-            String message = request.getAttribute("messageError") + "";
-            boolean isSuccessful = (boolean) request.getAttribute("isSuccessful");
+            if (AuthUtils.isAdmin(session)) {
+
+                StartupProjectDTO sp = (StartupProjectDTO) request.getAttribute("project");
+                String message = request.getAttribute("messageError") + "";
+                boolean isSuccessful = (boolean) request.getAttribute("isSuccessful");
         %>
     </body>
     <strong>Update Project: </strong> <%=sp.getName()%> <br/>
@@ -36,5 +39,12 @@
             }
         %>
     </form>
+
+    <%} else {
+    %>You do not have permission to access this content.<%
+        }
+
+    %>
+
 </body>
 </html>

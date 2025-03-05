@@ -68,7 +68,28 @@ public class StartupProjectDAO implements I_DAO<StartupProjectDTO, Integer>{
 
     @Override
     public List<StartupProjectDTO> readAll() {
-        return null;
+        List<StartupProjectDTO> list = new ArrayList<>();
+        
+        String sql = "SELECT * FROM tblStartupProjects";
+        
+        try{
+            Connection conn = DBUtils.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                StartupProjectDTO sp = new StartupProjectDTO(
+                        rs.getInt("project_id"),
+                        rs.getString("project_name"),
+                        rs.getString("Description"),
+                        rs.getString("Status"),
+                        rs.getString("estimated_launch"));
+                list.add(sp);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        
+        return list;
     }
 
     @Override

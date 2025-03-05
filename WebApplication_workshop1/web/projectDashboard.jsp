@@ -4,6 +4,7 @@
     Author     : phucl
 --%>
 
+<%@page import="utils.AuthUtils"%>
 <%@page import="dto.StartupProjectDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="dto.UserDTO"%>
@@ -16,9 +17,9 @@
     </head>
     <body>
         <%
-            if (session.getAttribute("user") != null) {
-                UserDTO user = (UserDTO) session.getAttribute("user");
-                boolean isFounder = user.getRole().equals("Founder");
+            if (AuthUtils.isLoggedIn(session)) {
+                UserDTO user = AuthUtils.getUser(session);
+                boolean isFounder = AuthUtils.isAdmin(session);
         %>
         Welcome <b> <%=user.getName()%> </b><br/>
 

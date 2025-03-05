@@ -4,6 +4,7 @@
     Author     : phucl
 --%>
 
+<%@page import="utils.AuthUtils"%>
 <%@page import="dto.StartupProjectDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -14,24 +15,25 @@
     </head>
     <body>
         <%
-            StartupProjectDTO sp;
-            try {
-                sp = (StartupProjectDTO) request.getAttribute("project");
-            } catch (Exception e) {
-                sp = new StartupProjectDTO();
-            }
-            if (sp == null) {
-                sp = new StartupProjectDTO();
-            }
+            if (AuthUtils.isAdmin(session)) {
+                StartupProjectDTO sp;
+                try {
+                    sp = (StartupProjectDTO) request.getAttribute("project");
+                } catch (Exception e) {
+                    sp = new StartupProjectDTO();
+                }
+                if (sp == null) {
+                    sp = new StartupProjectDTO();
+                }
 
-            String name_error = request.getAttribute("name_error") + "";
-            name_error = name_error.equals("null") ? "" : name_error;
+                String name_error = request.getAttribute("name_error") + "";
+                name_error = name_error.equals("null") ? "" : name_error;
 
-            String status_error = request.getAttribute("status_error") + "";
-            status_error = status_error.equals("null") ? "" : status_error;
+                String status_error = request.getAttribute("status_error") + "";
+                status_error = status_error.equals("null") ? "" : status_error;
 
-            String date_error = request.getAttribute("date_error") + "";
-            date_error = date_error.equals("null") ? "" : date_error;
+                String date_error = request.getAttribute("date_error") + "";
+                date_error = date_error.equals("null") ? "" : date_error;
         %>
 
         <form action="MainController" method="post">
@@ -56,5 +58,10 @@
             <br/>
             <input type="submit" value="Create" />
         </form>
+        <%} else {
+        %>You do not have permission to access this content.<%
+            }
+
+        %>
     </body>
 </html>
